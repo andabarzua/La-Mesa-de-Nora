@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ocultar scrollbar en carruseles (scroll sigue funcionando) */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Colecciones: en desktop (lg+) slider con 5 tarjetas visibles por slide */
+@media (min-width: 1024px) {
+  .carousel-grid-desktop {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .carousel-grid-desktop .carousel-grid-card {
+    flex: 0 0 calc((100% - 4 * var(--carousel-gap, 1rem)) / 5);
+    min-width: calc((100% - 4 * var(--carousel-gap, 1rem)) / 5);
+    max-width: calc((100% - 4 * var(--carousel-gap, 1rem)) / 5);
+  }
+}
+.carousel-grid-card {
+  min-width: var(--carousel-card-width);
+  max-width: var(--carousel-card-width);
+}
+
+/* Colecciones en móvil: 2 tarjetas por slide, sin asomar la siguiente */
+@media (max-width: 1023px) {
+  .carousel-mobile-cols {
+    scroll-snap-type: x mandatory;
+  }
+  .carousel-mobile-cols .carousel-grid-card {
+    min-width: calc((100% - var(--carousel-gap, 1rem)) / var(--carousel-mobile-cols, 2));
+    max-width: calc((100% - var(--carousel-gap, 1rem)) / var(--carousel-mobile-cols, 2));
+    scroll-snap-align: start;
+  }
+}
+
+/* Instagram feed (Elfsight) — home */
+#eapps-instagram-feed-1 {
+  padding: 3%;
+}
+@media (min-width: 1024px) {
+  #eapps-instagram-feed-1 {
+    padding-left: 10% !important;
+    padding-right: 10% !important;
+  }
+}

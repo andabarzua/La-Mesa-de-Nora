@@ -1,0 +1,167 @@
+<script setup>
+/**
+ * Vista Política de envío — La Mesa de Nora.
+ * Condiciones y plazos de envío.
+ */
+</script>
+
+<template>
+  <div class="min-h-screen bg-white">
+    <!-- Hero -->
+    <section class="bg-[#141642] px-4 py-12 text-center md:py-16">
+      <h1 class="text-3xl font-semibold tracking-wide text-white md:text-4xl">
+        Política de envío
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-white/90">
+        En LamesaDeNora, nos comprometemos a que tu pedido llegue en tiempo y forma.
+      </p>
+    </section>
+
+    <!-- Contenido -->
+    <div class="mx-auto max-w-3xl px-4 py-10 md:px-6 md:py-14">
+      <p class="text-lg leading-relaxed text-gray-700">
+        A continuación, detallamos nuestras condiciones y plazos de envío.
+      </p>
+
+      <nav class="mt-8 rounded-xl border border-gray-200 bg-gray-50/80 px-4 py-4 md:px-6" aria-label="Contenido de la política">
+        <p class="mb-3 text-sm font-semibold uppercase tracking-wide text-[#141642]">En esta página</p>
+        <ol class="list-inside list-decimal space-y-1 text-sm text-gray-700">
+          <li><a href="#zonas" class="hover:underline">Zonas de envío</a></li>
+          <li><a href="#procesamiento" class="hover:underline">Tiempos de procesamiento</a></li>
+          <li><a href="#entrega" class="hover:underline">Tiempos de entrega</a></li>
+          <li><a href="#costos" class="hover:underline">Costos de envío</a></li>
+          <li><a href="#seguimiento" class="hover:underline">Seguimiento de pedidos</a></li>
+          <li><a href="#entrega-domicilio" class="hover:underline">Entrega</a></li>
+          <li><a href="#danos" class="hover:underline">Daños durante el transporte</a></li>
+          <li><a href="#no-entregados" class="hover:underline">Envíos no entregados o rechazados</a></li>
+        </ol>
+      </nav>
+
+      <div class="mt-12 space-y-12">
+        <section id="zonas" class="scroll-mt-24">
+          <h2 class="flex items-center gap-3 text-xl font-semibold text-[#141642] md:text-2xl">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#141642] text-sm font-bold text-white">1</span>
+            Zonas de envío
+          </h2>
+          <p class="mt-4 leading-relaxed text-gray-700">
+            Realizamos envíos a todo el territorio de Chile, incluyendo zonas rurales. También ofrecemos envíos internacionales a determinados países. Para más información sobre envíos internacionales, por favor contáctanos.
+          </p>
+        </section>
+
+        <section id="procesamiento" class="scroll-mt-24">
+          <h2 class="flex items-center gap-3 text-xl font-semibold text-[#141642] md:text-2xl">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#141642] text-sm font-bold text-white">2</span>
+            Tiempos de procesamiento
+          </h2>
+          <p class="mt-4 leading-relaxed text-gray-700">
+            Los pedidos se procesan en un plazo de 1 a 3 días hábiles desde la confirmación del pago. Este tiempo no incluye fines de semana ni días festivos.
+          </p>
+          <p class="mt-3 leading-relaxed text-gray-700">
+            Para productos personalizados o hechos a medida, el tiempo de procesamiento puede extenderse a 5 a 10 días hábiles, dependiendo de la complejidad del diseño. Este tiempo será comunicado al momento de la compra.
+          </p>
+        </section>
+
+        <section id="entrega" class="scroll-mt-24">
+          <h2 class="flex items-center gap-3 text-xl font-semibold text-[#141642] md:text-2xl">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#141642] text-sm font-bold text-white">3</span>
+            Tiempos de entrega
+          </h2>
+          <ul class="mt-4 space-y-2 leading-relaxed text-gray-700">
+            <li><strong>Envíos nacionales:</strong> entre 3 y 7 días hábiles, dependiendo del destino.</li>
+            <li><strong>Envíos internacionales:</strong> entre 10 y 20 días hábiles, según el país de destino y el servicio de mensajería.</li>
+          </ul>
+          <p class="mt-3 text-gray-600">
+            Estos plazos son estimados y pueden verse afectados por factores externos como condiciones climáticas, demoras aduaneras o alta demanda en fechas especiales.
+          </p>
+        </section>
+
+        <section id="costos" class="scroll-mt-24">
+          <h2 class="flex items-center gap-3 text-xl font-semibold text-[#141642] md:text-2xl">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#141642] text-sm font-bold text-white">4</span>
+            Costos de envío
+          </h2>
+          <p class="mt-4 leading-relaxed text-gray-700">
+            Los costos de envío se calculan automáticamente al finalizar tu compra, en función del peso, dimensiones y destino del paquete.
+          </p>
+          <ul class="mt-3 space-y-1 leading-relaxed text-gray-700">
+            <li><strong>Envío estándar:</strong> consultar en el carrito según destino.</li>
+            <li><strong>Envío exprés</strong> (si aplica): consultar al momento de la compra.</li>
+          </ul>
+          <p class="mt-3 leading-relaxed text-gray-700">
+            Ofrecemos envío gratuito en pedidos superiores a un monto determinado, válido únicamente dentro del territorio nacional. El monto aplicable se muestra en el proceso de compra.
+          </p>
+        </section>
+
+        <section id="seguimiento" class="scroll-mt-24">
+          <h2 class="flex items-center gap-3 text-xl font-semibold text-[#141642] md:text-2xl">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#141642] text-sm font-bold text-white">5</span>
+            Seguimiento de pedidos
+          </h2>
+          <p class="mt-4 leading-relaxed text-gray-700">
+            Una vez que tu pedido haya sido despachado, recibirás un correo electrónico con el número de seguimiento y el enlace para rastrear tu paquete en tiempo real.
+          </p>
+        </section>
+
+        <section id="entrega-domicilio" class="scroll-mt-24">
+          <h2 class="flex items-center gap-3 text-xl font-semibold text-[#141642] md:text-2xl">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#141642] text-sm font-bold text-white">6</span>
+            Entrega
+          </h2>
+          <p class="mt-4 leading-relaxed text-gray-700">
+            El pedido se entregará en la dirección proporcionada durante el proceso de compra. Es responsabilidad del cliente asegurarse de que los datos de envío sean correctos y estén completos.
+          </p>
+          <p class="mt-3 leading-relaxed text-gray-700">
+            En caso de ausencia en el momento de la entrega, la empresa de mensajería realizará una segunda visita o dejará un aviso con instrucciones para reprogramar la entrega o retirar el paquete.
+          </p>
+        </section>
+
+        <section id="danos" class="scroll-mt-24">
+          <h2 class="flex items-center gap-3 text-xl font-semibold text-[#141642] md:text-2xl">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#141642] text-sm font-bold text-white">7</span>
+            Daños durante el transporte
+          </h2>
+          <p class="mt-4 leading-relaxed text-gray-700">
+            Si tu pedido llega dañado o abierto, por favor notifícalo dentro de las 48 horas posteriores a la recepción, enviando fotografías del estado del paquete y del producto a nuestro correo electrónico.
+          </p>
+          <p class="mt-3 leading-relaxed text-gray-700">
+            Evaluaremos el caso y, de corresponder, procederemos con el reemplazo o reembolso.
+          </p>
+        </section>
+
+        <section id="no-entregados" class="scroll-mt-24">
+          <h2 class="flex items-center gap-3 text-xl font-semibold text-[#141642] md:text-2xl">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#141642] text-sm font-bold text-white">8</span>
+            Envíos no entregados o rechazados
+          </h2>
+          <p class="mt-4 leading-relaxed text-gray-700">
+            En caso de que un pedido sea devuelto a LamesaDeNora por dirección incorrecta, ausencia prolongada o rechazo por parte del cliente, podremos volver a enviarlo una vez que el cliente asuma los nuevos costos de envío.
+          </p>
+        </section>
+      </div>
+
+      <!-- Contacto -->
+      <div class="mt-14 rounded-2xl border border-[#254B86]/30 bg-[#141642]/5 px-6 py-6 md:px-8 md:py-8">
+        <h3 class="text-lg font-semibold text-[#141642]">¿Dudas sobre tu envío?</h3>
+        <p class="mt-2 text-gray-700">Puedes contactarnos a través de:</p>
+        <ul class="mt-4 space-y-2">
+          <li>
+            <a href="mailto:hola@lamesadenora.com" class="flex items-center gap-2 text-[#254B86] hover:underline">
+              <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              hola@lamesadenora.com
+            </a>
+          </li>
+          <li>
+            <a href="tel:+56953331228" class="flex items-center gap-2 text-[#254B86] hover:underline">
+              <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+              +56 9 5333 1228
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <p class="mt-8 text-sm text-gray-500">
+        Última actualización: Febrero 2026
+      </p>
+    </div>
+  </div>
+</template>
