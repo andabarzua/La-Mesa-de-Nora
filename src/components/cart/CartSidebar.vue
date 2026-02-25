@@ -253,6 +253,10 @@ onUnmounted(() => {
             <span>IVA (19%)</span>
             <span>${{ cartStore.iva.toLocaleString('es-CL') }}</span>
           </div>
+          <div class="flex justify-between text-gray-600">
+            <span>Garantía (30%)</span>
+            <span>${{ cartStore.garantia.toLocaleString('es-CL') }}</span>
+          </div>
           <div class="flex justify-between border-t border-gray-200 pt-3 text-base font-semibold text-[#141642]">
             <span>Total a pagar</span>
             <span>${{ cartStore.total.toLocaleString('es-CL') }}</span>

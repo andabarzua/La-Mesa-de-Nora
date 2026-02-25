@@ -13,6 +13,7 @@ import {
 } from '@/api/endpoints/cart';
 
 const IVA_RATE = 0.19;
+const GARANTIA_RATE = 0.30;
 
 export const useCartStore = defineStore('cart', () => {
   const items = ref([]);
@@ -26,7 +27,9 @@ export const useCartStore = defineStore('cart', () => {
 
   const iva = computed(() => Math.round(subtotal.value * IVA_RATE));
 
-  const total = computed(() => subtotal.value + iva.value);
+  const garantia = computed(() => Math.round(subtotal.value * GARANTIA_RATE));
+
+  const total = computed(() => subtotal.value + iva.value + garantia.value);
 
   const count = computed(() =>
     items.value.reduce((sum, item) => sum + item.quantity, 0),
@@ -114,6 +117,7 @@ export const useCartStore = defineStore('cart', () => {
     error,
     subtotal,
     iva,
+    garantia,
     total,
     count,
     loadCart,

@@ -370,6 +370,9 @@ function onDocumentoFocusOut() {
           <div>
             <p class="text-xs font-medium uppercase tracking-wider text-gray-500">Total a pagar</p>
             <p class="mt-1 text-xl font-bold text-[#141642]">${{ (resumenPedidoConfirmado.total || 0).toLocaleString('es-CL') }}</p>
+            <p class="mt-1 text-xs text-gray-500">
+              Incluye IVA (19%) y Garantía (30%)
+            </p>
           </div>
 
           <div>
@@ -736,6 +739,10 @@ function onDocumentoFocusOut() {
               <div class="flex justify-between text-gray-600">
                 <span>IVA (19%)</span>
                 <span>${{ cartStore.iva.toLocaleString('es-CL') }}</span>
+              </div>
+              <div class="flex justify-between text-gray-600">
+                <span>Garantía (30%)</span>
+                <span>${{ cartStore.garantia.toLocaleString('es-CL') }}</span>
               </div>
               <div class="flex justify-between border-t border-gray-200 pt-3 text-base font-semibold text-[#141642]">
                 <span>Total</span>
