@@ -74,7 +74,7 @@ function getCombinationLabel(comb) {
 function getCombinationImage(comb) {
   const imgs = comb.images ?? [];
   if (imgs.length > 0 && imgs[0]) return imgs[0];
-  return displayImages.value[0] || '/img/colecciones/vajillas.webp';
+  return displayImages.value[0] || '/img/LMDN_Logo.webp';
 }
 
 function getCombinationQty(comb) {
@@ -153,8 +153,24 @@ const selectedCombination = computed(() => {
 });
 
 const displayPrice = computed(() => {
-  if (selectedCombination.value) return selectedCombination.value.price;
+  if (selectedCombination.value) return (product.value.price ?? 0) + (selectedCombination.value.price_impact ?? 0);
+  
+  if (hasCombinations.value) {
+    const prices = combinations.value.map(c => parseFloat(product.value.price || 0) + parseFloat(c.price_impact || 0));
+    const min = Math.min(...prices);
+    if (!isNaN(min)) return min;
+  }
+  
   return product.value.price ?? 0;
+});
+
+const priceRange = computed(() => {
+  if (!hasCombinations.value) return null;
+  const prices = combinations.value.map(c => parseFloat(product.value.price || 0) + parseFloat(c.price_impact || 0));
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+  if (min === max || isNaN(min) || isNaN(max)) return null;
+  return { min, max };
 });
 
 const displayReference = computed(() => {
@@ -264,7 +280,7 @@ async function fetchProduct() {
     const p = response.data ?? {};
     const images = Array.isArray(p.images) && p.images.length
       ? p.images
-      : (p.cover ? [p.cover] : ['/img/colecciones/vajillas.webp']);
+      : (p.cover ? [p.cover] : ['/img/LMDN_Logo.webp']);
     product.value = {
       id: p.id ?? null,
       name: p.name ?? '',
@@ -363,7 +379,8 @@ onMounted(() => {
             <img
               :src="mainImage"
               :alt="product.name"
-              class="max-h-full max-w-full object-contain object-center"
+              class="max-h-full max-w-full object-center"
+              :class="mainImage === '/img/LMDN_Logo.webp' ? 'w-1/2 object-contain opacity-10 grayscale p-8' : 'object-contain'"
             />
             <button
               type="button"
@@ -395,7 +412,7 @@ onMounted(() => {
               :class="selectedImageIndex === index ? 'border-[#141642]' : 'border-gray-200 hover:border-gray-300'"
               @click="selectedImageIndex = index"
             >
-              <img :src="img" :alt="`${product.name} ${index + 1}`" class="h-full w-full object-cover" />
+              <img :src="img" :alt="`${product.name} ${index + 1}`" :class="img === '/img/LMDN_Logo.webp' ? 'h-full w-full object-contain opacity-10 grayscale p-4' : 'h-full w-full object-cover'" />
             </button>
           </div>
         </div>
@@ -412,7 +429,12 @@ onMounted(() => {
             Referencia: <span class="font-medium text-gray-700">{{ displayReference }}</span>
           </p>
           <p class="mt-4 text-2xl font-semibold text-[#141642]">
-            ${{ displayPrice.toLocaleString('es-CL') }}
+            <template v-if="hasCombinations && !selectedCombination && priceRange">
+              ${{ priceRange.min.toLocaleString('es-CL') }} - ${{ priceRange.max.toLocaleString('es-CL') }}
+            </template>
+            <template v-else>
+              ${{ displayPrice.toLocaleString('es-CL') }}
+            </template>
           </p>
 
           <p v-if="parentHasNoStock" class="mt-3 rounded-lg bg-amber-50 px-4 py-3 text-sm font-medium text-amber-800">
@@ -549,7 +571,7 @@ onMounted(() => {
                     <img
                       :src="getCombinationImage(comb)"
                       :alt="getCombinationLabel(comb)"
-                      class="h-full w-full object-cover"
+                      :class="getCombinationImage(comb) === '/img/LMDN_Logo.webp' ? 'h-full w-full object-contain p-4 opacity-10 grayscale' : 'h-full w-full object-cover'"
                     />
                   </div>
                   <div class="min-w-0 flex-1">
@@ -557,7 +579,7 @@ onMounted(() => {
                       {{ product.name }} — {{ getCombinationLabel(comb) }}
                     </p>
                     <p class="text-sm font-semibold text-[#141642]">
-                      ${{ (comb.price ?? 0).toLocaleString('es-CL') }}
+                      ${{ ((product.price ?? 0) + (comb.price_impact ?? 0)).toLocaleString('es-CL') }}
                     </p>
                   </div>
                   <div class="flex shrink-0 items-center gap-1">

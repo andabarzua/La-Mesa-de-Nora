@@ -113,11 +113,13 @@ async function fetchProducts() {
       const displayCategory = currentCategoryId && cats.length
         ? (cats.find((c) => c.id === currentCategoryId)?.name ?? cats[0]?.name)
         : (cats[0]?.name ?? categoryTitle.value);
+        
       return {
         id: p.id,
         title: p.name,
         category: displayCategory,
         price: p.price,
+        priceRange: p.price_range || null,
         imageUrl: p.cover || '',
         imageAlt: p.name,
         to: p.slug ? `/product/${p.slug}` : '',
@@ -235,6 +237,7 @@ watch([slug, sortBy], () => {
           :title="product.title"
           :category="product.category"
           :price="product.price"
+          :price-range="product.priceRange"
           :image-url="product.imageUrl"
           :image-alt="product.imageAlt"
           :to="product.to"

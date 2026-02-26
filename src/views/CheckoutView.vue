@@ -712,11 +712,11 @@ function onDocumentoFocusOut() {
                 :key="`${item.product_id}_${item.combination_id ?? 0}`"
                 class="flex gap-3 rounded-xl border border-gray-100 bg-white p-3"
               >
-                <div class="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                <div class="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-gray-50 flex items-center justify-center">
                   <img
-                    :src="item.cover_url || '/img/colecciones/vajillas.webp'"
+                    :src="item.cover_url || '/img/LMDN_Logo.webp'"
                     :alt="item.name"
-                    class="h-full w-full object-cover"
+                    :class="(!item.cover_url || item.cover_url === '/img/LMDN_Logo.webp') ? 'w-1/2 object-contain opacity-10 grayscale p-4' : 'h-full w-full object-cover'"
                   />
                 </div>
                 <div class="min-w-0 flex-1">

@@ -23,7 +23,8 @@ function toCardItem(item) {
   return {
     imageUrl: item.image_url ?? item.imageUrl ?? item.cover ?? '',
     title: item.name ?? item.title ?? '',
-    price: item.price ?? 0,
+    price: Number(item.price ?? 0),
+    priceRange: item.price_range || item.priceRange || null,
     category: item.category ?? item.category_name ?? '',
     to: item.to ?? (item.slug ? `/product/${item.slug}` : '#'),
   };
@@ -113,7 +114,8 @@ function toCardItem(item) {
           <ProductGridCard
             :title="toCardItem(item).title"
             :category="toCardItem(item).category"
-            :price="Number(toCardItem(item).price)"
+            :price="toCardItem(item).price"
+            :price-range="toCardItem(item).priceRange"
             :image-url="toCardItem(item).imageUrl"
             :image-alt="toCardItem(item).title"
             :to="toCardItem(item).to"

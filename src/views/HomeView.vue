@@ -79,13 +79,16 @@ async function loadFeaturedCristaleria() {
       sort: 'name',
       filters: { category: 10 }, // id_category = 10 → Cristaleria
     });
-    featuredCristaleria.value = (response.data ?? []).map((p) => ({
-      id: p.id,
-      name: p.name,
-      price: p.price,
-      cover: p.cover || '',
-      slug: p.slug,
-    }));
+    featuredCristaleria.value = (response.data ?? []).map((p) => {
+      return {
+        id: p.id,
+        name: p.name,
+        price: p.price ?? 0,
+        priceRange: p.price_range || null,
+        cover: p.cover || '/img/LMDN_Logo.webp',
+        slug: p.slug,
+      };
+    });
   } catch {
     featuredCristaleria.value = [];
   } finally {
@@ -106,13 +109,16 @@ async function loadFeaturedServilletas() {
       sort: 'name',
       filters: { category: 12 }, // id_category = 12 → Servilletas
     });
-    featuredServilletas.value = (response.data ?? []).map((p) => ({
-      id: p.id,
-      name: p.name,
-      price: p.price,
-      cover: p.cover || '',
-      slug: p.slug,
-    }));
+    featuredServilletas.value = (response.data ?? []).map((p) => {
+      return {
+        id: p.id,
+        name: p.name,
+        price: p.price ?? 0,
+        priceRange: p.price_range || null,
+        cover: p.cover || '/img/LMDN_Logo.webp',
+        slug: p.slug,
+      };
+    });
   } catch {
     featuredServilletas.value = [];
   } finally {
@@ -364,19 +370,12 @@ const testimonials = [
             :to="item.slug ? `/product/${item.slug}` : ''"
             class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all duration-200 hover:border-gray-200 hover:shadow-md hover:shadow-gray-200/60"
           >
-            <div class="relative aspect-square w-full overflow-hidden bg-gray-50">
+            <div class="relative aspect-square w-full overflow-hidden bg-gray-50 flex items-center justify-center">
               <img
-                v-if="item.cover"
                 :src="item.cover"
                 :alt="item.name"
-                class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                :class="item.cover === '/img/LMDN_Logo.webp' ? 'h-full w-full object-contain opacity-10 grayscale p-8' : 'h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'"
               />
-              <div
-                v-else
-                class="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400"
-              >
-                <span class="text-xs uppercase tracking-wide">Sin imagen</span>
-              </div>
             </div>
             <div class="flex flex-1 flex-col p-3 md:p-4">
               <p class="text-[11px] font-semibold uppercase tracking-widest text-[#141642]/70">
@@ -385,7 +384,10 @@ const testimonials = [
               <h3 class="mt-1 line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-gray-900 group-hover:text-[#141642]">
                 {{ item.name }}
               </h3>
-              <p class="mt-2 text-sm font-semibold text-[#141642]">
+              <p v-if="item.priceRange" class="mt-2 text-sm font-semibold text-[#141642]">
+                ${{ item.priceRange.min.toLocaleString('es-CL') }} - ${{ item.priceRange.max.toLocaleString('es-CL') }}
+              </p>
+              <p v-else class="mt-2 text-sm font-semibold text-[#141642]">
                 ${{ item.price.toLocaleString('es-CL') }}
               </p>
             </div>
@@ -428,19 +430,12 @@ const testimonials = [
             :to="item.slug ? `/product/${item.slug}` : ''"
             class="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all duration-200 hover:border-gray-200 hover:shadow-md hover:shadow-gray-200/60"
           >
-            <div class="relative aspect-square w-full overflow-hidden bg-gray-50">
+            <div class="relative aspect-square w-full overflow-hidden bg-gray-50 flex items-center justify-center">
               <img
-                v-if="item.cover"
                 :src="item.cover"
                 :alt="item.name"
-                class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                :class="item.cover === '/img/LMDN_Logo.webp' ? 'h-full w-full object-contain opacity-10 grayscale p-8' : 'h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'"
               />
-              <div
-                v-else
-                class="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400"
-              >
-                <span class="text-xs uppercase tracking-wide">Sin imagen</span>
-              </div>
             </div>
             <div class="flex flex-1 flex-col p-3 md:p-4">
               <p class="text-[11px] font-semibold uppercase tracking-widest text-[#141642]/70">
@@ -449,7 +444,10 @@ const testimonials = [
               <h3 class="mt-1 line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-gray-900 group-hover:text-[#141642]">
                 {{ item.name }}
               </h3>
-              <p class="mt-2 text-sm font-semibold text-[#141642]">
+              <p v-if="item.priceRange" class="mt-2 text-sm font-semibold text-[#141642]">
+                ${{ item.priceRange.min.toLocaleString('es-CL') }} - ${{ item.priceRange.max.toLocaleString('es-CL') }}
+              </p>
+              <p v-else class="mt-2 text-sm font-semibold text-[#141642]">
                 ${{ item.price.toLocaleString('es-CL') }}
               </p>
             </div>
