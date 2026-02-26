@@ -252,7 +252,12 @@ watch(quantity, (val) => {
 
 watch(combinations, (list) => {
   if (list.length > 0 && Object.keys(selectedAttributes.value).length === 0) {
-    selectedAttributes.value = {};
+    const firstComb = list[0];
+    const autoSelect = {};
+    for (const a of firstComb.attributes ?? []) {
+      autoSelect[a.group] = a.value;
+    }
+    selectedAttributes.value = autoSelect;
   }
   combinationQuantities.value = {};
 }, { immediate: true });
@@ -293,6 +298,14 @@ async function fetchProduct() {
       categories: Array.isArray(p.categories) ? p.categories : [],
       combinations: Array.isArray(p.combinations) ? p.combinations : [],
     };
+    if (product.value.combinations.length > 0) {
+      const firstComb = product.value.combinations[0];
+      const autoSelect = {};
+      for (const a of firstComb.attributes ?? []) {
+        autoSelect[a.group] = a.value;
+      }
+      selectedAttributes.value = autoSelect;
+    }
     selectedImageIndex.value = 0;
     quantity.value = 1;
     setPageTitle();
