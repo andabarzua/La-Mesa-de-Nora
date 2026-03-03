@@ -105,8 +105,7 @@ async function addCombinationToCart(comb) {
   if (needReservationDates.value && (!reservationStartDate.value || !reservationEndDate.value)) return;
   try {
     if (needReservationDates.value) {
-      localStorage.setItem('lmdn_reservation_start', reservationStartDate.value);
-      localStorage.setItem('lmdn_reservation_end', reservationEndDate.value);
+      cartStore.setReservationDates(reservationStartDate.value, reservationEndDate.value);
       hasReservationDates.value = true;
     }
     addingCombinationId.value = comb.id;
@@ -228,8 +227,7 @@ function sumarCantidad() {
 async function addToCart() {
   try {
     if (needReservationDates.value && reservationStartDate.value && reservationEndDate.value) {
-      localStorage.setItem('lmdn_reservation_start', reservationStartDate.value);
-      localStorage.setItem('lmdn_reservation_end', reservationEndDate.value);
+      cartStore.setReservationDates(reservationStartDate.value, reservationEndDate.value);
       hasReservationDates.value = true;
     }
     await cartStore.addProduct({

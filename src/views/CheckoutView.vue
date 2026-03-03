@@ -147,8 +147,8 @@ async function confirmarPedido() {
   enviando.value = true;
   errorMensaje.value = '';
   try {
-    const inicio = typeof localStorage !== 'undefined' ? localStorage.getItem('lmdn_reservation_start') : null;
-    const fin = typeof localStorage !== 'undefined' ? localStorage.getItem('lmdn_reservation_end') : null;
+    const inicio = cartStore.reservationStart || null;
+    const fin    = cartStore.reservationEnd   || null;
     const res = await checkout({
       nombre: form.value.nombre,
       email: form.value.email,
@@ -175,8 +175,6 @@ async function confirmarPedido() {
         return;
       }
       const transporteSeleccionado = transportes.value.find((t) => t.id === transporteId.value);
-      const inicio = typeof localStorage !== 'undefined' ? localStorage.getItem('lmdn_reservation_start') : null;
-      const fin = typeof localStorage !== 'undefined' ? localStorage.getItem('lmdn_reservation_end') : null;
       resumenPedidoConfirmado.value = {
         referencia: res.reference ?? '',
         total: cartStore.total,
@@ -189,6 +187,7 @@ async function confirmarPedido() {
       };
       confirmado.value = true;
       cartStore.clear();
+      cartStore.setReservationDates('', '');
       try { localStorage.removeItem(CHECKOUT_CONTACTO_KEY); } catch { /* limpiar al confirmar */ }
     } else {
       errorMensaje.value = res?.message || 'No se pudo crear el pedido.';
@@ -280,8 +279,8 @@ function onFormFocusOut() {
 }
 
 const fechasReserva = computed(() => ({
-  inicio: typeof localStorage !== 'undefined' ? localStorage.getItem('lmdn_reservation_start') : null,
-  fin: typeof localStorage !== 'undefined' ? localStorage.getItem('lmdn_reservation_end') : null,
+  inicio: cartStore.reservationStart || null,
+  fin:    cartStore.reservationEnd   || null,
 }));
 
 function formatDateReserva(dateStr) {

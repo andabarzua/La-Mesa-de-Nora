@@ -31,12 +31,34 @@ export const useCartStore = defineStore('cart', () => {
   const loading = ref(false);
   const error = ref('');
 
-  /** Días de arriendo reactivos, leídos desde localStorage. */
-  const rentalDays = computed(() => {
-    const start = typeof localStorage !== 'undefined' ? localStorage.getItem('lmdn_reservation_start') : null;
-    const end = typeof localStorage !== 'undefined' ? localStorage.getItem('lmdn_reservation_end') : null;
-    return calcRentalDays(start, end);
-  });
+  // ── Fechas de reserva reactivas ──────────────────────────────────────────
+  // Se inicializan desde localStorage al crear el store (primera carga).
+  const reservationStart = ref(
+    typeof localStorage !== 'undefined' ? (localStorage.getItem('lmdn_reservation_start') ?? '') : '',
+  );
+  const reservationEnd = ref(
+    typeof localStorage !== 'undefined' ? (localStorage.getItem('lmdn_reservation_end') ?? '') : '',
+  );
+
+  /**
+   * Actualiza las fechas de reserva: persiste en localStorage Y dispara
+   * la reactividad del store (rentalDays, subtotal, total se recalculan).
+   */
+  function setReservationDates(start, end) {
+    reservationStart.value = start ?? '';
+    reservationEnd.value = end ?? '';
+    if (typeof localStorage !== 'undefined') {
+      if (start) localStorage.setItem('lmdn_reservation_start', start);
+      else localStorage.removeItem('lmdn_reservation_start');
+      if (end) localStorage.setItem('lmdn_reservation_end', end);
+      else localStorage.removeItem('lmdn_reservation_end');
+    }
+  }
+
+  /** Días de arriendo — reactivos a reservationStart/End. */
+  const rentalDays = computed(() =>
+    calcRentalDays(reservationStart.value, reservationEnd.value),
+  );
 
   /** Subtotal = precio_unitario × cantidad × días de arriendo */
   const subtotal = computed(() =>
@@ -44,9 +66,7 @@ export const useCartStore = defineStore('cart', () => {
   );
 
   const iva = computed(() => Math.round(subtotal.value * IVA_RATE));
-
   const garantia = computed(() => Math.round(subtotal.value * GARANTIA_RATE));
-
   const total = computed(() => subtotal.value + iva.value + garantia.value);
 
   const count = computed(() =>
@@ -119,26 +139,23 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   const sidebarOpen = ref(false);
-
-  function openSidebar() {
-    sidebarOpen.value = true;
-  }
-
-  function closeSidebar() {
-    sidebarOpen.value = false;
-  }
+  function openSidebar() { sidebarOpen.value = true; }
+  function closeSidebar() { sidebarOpen.value = false; }
 
   return {
     items,
     token,
     loading,
     error,
+    reservationStart,
+    reservationEnd,
     rentalDays,
     subtotal,
     iva,
     garantia,
     total,
     count,
+    setReservationDates,
     loadCart,
     addProduct,
     updateQuantity,
@@ -150,4 +167,3 @@ export const useCartStore = defineStore('cart', () => {
     closeSidebar,
   };
 });
-

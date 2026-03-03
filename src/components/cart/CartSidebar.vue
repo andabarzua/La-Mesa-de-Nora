@@ -3,28 +3,25 @@
  * Sidebar del carrito — La Mesa de Nora.
  * Muestra ítems (imagen redondeada, nombre, fechas, cantidad, precio) y totales (subtotal, IVA, total).
  * Cierre: botón X y tecla ESC.
+ * Las fechas de reserva se leen desde el cartStore (reactivo) — el precio se recalcula al guardar.
  */
-import { computed, ref, watch, onMounted, onUnmounted } from 'vue';
+import { computed, ref, watch, onUnmounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 import { fetchCartBlockedDates } from '@/api/endpoints/availability';
 import ReservationDatePicker from '@/components/ReservationDatePicker.vue';
 
-const reservationStartDate = ref('');
-const reservationEndDate = ref('');
+const cartStore = useCartStore();
+
 const editDatesModalOpen = ref(false);
 const editStartDate = ref('');
 const editEndDate = ref('');
 const blockedDates = ref([]);
 
-function loadReservationDates() {
-  reservationStartDate.value = localStorage.getItem('lmdn_reservation_start') ?? '';
-  reservationEndDate.value = localStorage.getItem('lmdn_reservation_end') ?? '';
-}
-
 async function openEditDatesModal() {
-  editStartDate.value = reservationStartDate.value || '';
-  editEndDate.value = reservationEndDate.value || '';
+  // Toma los valores actuales del store (fuente de verdad reactiva)
+  editStartDate.value = cartStore.reservationStart || '';
+  editEndDate.value   = cartStore.reservationEnd   || '';
   editDatesModalOpen.value = true;
   try {
     const res = await fetchCartBlockedDates();
@@ -36,10 +33,8 @@ async function openEditDatesModal() {
 
 function saveEditedDates() {
   if (!editStartDate.value || !editEndDate.value) return;
-  localStorage.setItem('lmdn_reservation_start', editStartDate.value);
-  localStorage.setItem('lmdn_reservation_end', editEndDate.value);
-  reservationStartDate.value = editStartDate.value;
-  reservationEndDate.value = editEndDate.value;
+  // ✅ Actualiza el store → dispara reactividad → precio se recalcula sin recargar
+  cartStore.setReservationDates(editStartDate.value, editEndDate.value);
   editDatesModalOpen.value = false;
 }
 
@@ -48,8 +43,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-const cartStore = useCartStore();
 
 const open = computed({
   get: () => props.modelValue,
@@ -66,11 +59,11 @@ const todayYmd = () => {
 };
 
 const isReservationDateInPast = computed(() => {
-  const start = reservationStartDate.value;
-  const end = reservationEndDate.value;
+  const start = cartStore.reservationStart;
+  const end   = cartStore.reservationEnd;
   const today = todayYmd();
   if (start && start < today) return true;
-  if (end && end < today) return true;
+  if (end   && end   < today) return true;
   return false;
 });
 
@@ -86,16 +79,11 @@ function onKeydown(e) {
 
 watch(() => props.modelValue, (isOpen) => {
   if (isOpen) {
-    loadReservationDates();
     document.addEventListener('keydown', onKeydown);
   } else {
     document.removeEventListener('keydown', onKeydown);
   }
 }, { immediate: true });
-
-onMounted(() => {
-  loadReservationDates();
-});
 
 onUnmounted(() => {
   document.removeEventListener('keydown', onKeydown);
@@ -151,7 +139,7 @@ onUnmounted(() => {
 
       <!-- Fechas de reserva (al comienzo) -->
       <div
-        v-if="reservationStartDate && reservationEndDate"
+        v-if="cartStore.reservationStart && cartStore.reservationEnd"
         class="shrink-0 border-b border-gray-200 bg-[#141642]/5 px-4 py-3"
       >
         <div class="flex items-start justify-between gap-2">
@@ -161,7 +149,7 @@ onUnmounted(() => {
               Fecha No Disponible
             </p>
             <p v-else class="mt-1 text-sm font-medium text-[#141642]">
-              {{ formatDate(reservationStartDate) }} — {{ formatDate(reservationEndDate) }}
+              {{ formatDate(cartStore.reservationStart) }} — {{ formatDate(cartStore.reservationEnd) }}
             </p>
           </div>
           <button
