@@ -1,6 +1,7 @@
 /**
  * Store Pinia para el carrito — La Mesa de Nora.
  * Sincronizado con carrito de PrestaShop vía API headless.
+ * El subtotal se calcula como: precio_unitario × cantidad × días de arriendo.
  */
 
 import { defineStore } from 'pinia';
@@ -15,14 +16,31 @@ import {
 const IVA_RATE = 0.19;
 const GARANTIA_RATE = 0.30;
 
+/** Calcula la cantidad de días entre dos fechas YYYY-MM-DD (inclusivo en ambos extremos). */
+function calcRentalDays(startStr, endStr) {
+  if (!startStr || !endStr) return 1;
+  const start = new Date(startStr + 'T12:00:00');
+  const end = new Date(endStr + 'T12:00:00');
+  const diff = Math.round((end - start) / (1000 * 60 * 60 * 24));
+  return diff >= 1 ? diff + 1 : 1; // inclusivo: 10→12 = 3 días
+}
+
 export const useCartStore = defineStore('cart', () => {
   const items = ref([]);
   const token = ref(null);
   const loading = ref(false);
   const error = ref('');
 
+  /** Días de arriendo reactivos, leídos desde localStorage. */
+  const rentalDays = computed(() => {
+    const start = typeof localStorage !== 'undefined' ? localStorage.getItem('lmdn_reservation_start') : null;
+    const end = typeof localStorage !== 'undefined' ? localStorage.getItem('lmdn_reservation_end') : null;
+    return calcRentalDays(start, end);
+  });
+
+  /** Subtotal = precio_unitario × cantidad × días de arriendo */
   const subtotal = computed(() =>
-    items.value.reduce((sum, item) => sum + item.unit_price * item.quantity, 0),
+    items.value.reduce((sum, item) => sum + item.unit_price * item.quantity, 0) * rentalDays.value,
   );
 
   const iva = computed(() => Math.round(subtotal.value * IVA_RATE));
@@ -115,6 +133,7 @@ export const useCartStore = defineStore('cart', () => {
     token,
     loading,
     error,
+    rentalDays,
     subtotal,
     iva,
     garantia,

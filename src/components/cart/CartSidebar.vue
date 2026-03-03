@@ -245,6 +245,10 @@ onUnmounted(() => {
         class="shrink-0 border-t border-gray-200 bg-white px-4 py-4"
       >
         <div class="space-y-2 text-sm">
+          <div v-if="cartStore.rentalDays > 1" class="flex justify-between text-gray-500 text-xs border-b border-gray-100 pb-2 mb-1">
+            <span>{{ cartStore.rentalDays }} días × precio/día</span>
+            <span>×{{ cartStore.rentalDays }}</span>
+          </div>
           <div class="flex justify-between text-gray-600">
             <span>Subtotal</span>
             <span>${{ cartStore.subtotal.toLocaleString('es-CL') }}</span>
