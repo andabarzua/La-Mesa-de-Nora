@@ -169,11 +169,13 @@ async function confirmarPedido() {
           : null,
       metodo_pago: metodoPago.value,
     });
+    
     if (res?.success) {
       if (metodoPago.value === 'mercado_pago' && res.mercado_pago?.init_point) {
         window.location.href = res.mercado_pago.init_point;
-        return;
+        return; // Redirecting, do not clear cart or show success page yet
       }
+      
       const transporteSeleccionado = transportes.value.find((t) => t.id === transporteId.value);
       resumenPedidoConfirmado.value = {
         referencia: res.reference ?? '',
@@ -185,6 +187,7 @@ async function confirmarPedido() {
         contacto: { ...form.value },
         fechasReserva: inicio && fin ? { inicio, fin } : null,
       };
+      
       confirmado.value = true;
       cartStore.clear();
       cartStore.setReservationDates('', '');

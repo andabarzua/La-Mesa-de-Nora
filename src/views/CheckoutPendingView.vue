@@ -1,11 +1,22 @@
 <script setup>
 /**
  * Página de retorno cuando el pago quedó pendiente (ej. transferencia en proceso).
+ * El pedido ya fue creado; limpiamos el carrito y mostramos el estado.
  */
+import { onMounted } from 'vue';
 import { useRoute, RouterLink } from 'vue-router';
+import { useCartStore } from '@/stores/cart';
 
 const route = useRoute();
 const externalReference = route.query.external_reference ?? '';
+const cartStore = useCartStore();
+
+onMounted(() => {
+  // El pedido ya existe, solo el pago está pendiente de acreditación
+  cartStore.clear();
+  cartStore.setReservationDates('', '');
+  try { localStorage.removeItem('checkout_contacto'); } catch { /* ok */ }
+});
 </script>
 
 <template>

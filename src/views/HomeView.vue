@@ -385,10 +385,14 @@ const testimonials = [
                 {{ item.name }}
               </h3>
               <p v-if="item.priceRange" class="mt-2 text-sm font-semibold text-[#141642]">
-                ${{ item.priceRange.min.toLocaleString('es-CL') }} - ${{ item.priceRange.max.toLocaleString('es-CL') }}
+                ${{ item.priceRange.min.toLocaleString('es-CL') }}
+                <span v-if="item.priceRange.min !== item.priceRange.max"> - ${{ item.priceRange.max.toLocaleString('es-CL') }}</span>
               </p>
-              <p v-else class="mt-2 text-sm font-semibold text-[#141642]">
+              <p v-else-if="item.price > 0" class="mt-2 text-sm font-semibold text-[#141642]">
                 ${{ item.price.toLocaleString('es-CL') }}
+              </p>
+              <p v-else class="mt-2 text-sm font-medium italic text-[#141642]/60">
+                Ver precio
               </p>
             </div>
           </router-link>
@@ -445,10 +449,14 @@ const testimonials = [
                 {{ item.name }}
               </h3>
               <p v-if="item.priceRange" class="mt-2 text-sm font-semibold text-[#141642]">
-                ${{ item.priceRange.min.toLocaleString('es-CL') }} - ${{ item.priceRange.max.toLocaleString('es-CL') }}
+                ${{ item.priceRange.min.toLocaleString('es-CL') }}
+                <span v-if="item.priceRange.min !== item.priceRange.max"> - ${{ item.priceRange.max.toLocaleString('es-CL') }}</span>
               </p>
-              <p v-else class="mt-2 text-sm font-semibold text-[#141642]">
+              <p v-else-if="item.price > 0" class="mt-2 text-sm font-semibold text-[#141642]">
                 ${{ item.price.toLocaleString('es-CL') }}
+              </p>
+              <p v-else class="mt-2 text-sm font-medium italic text-[#141642]/60">
+                Ver precio
               </p>
             </div>
           </router-link>

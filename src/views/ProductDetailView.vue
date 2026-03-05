@@ -154,10 +154,12 @@ const selectedCombination = computed(() => {
 });
 
 const displayPrice = computed(() => {
-  if (selectedCombination.value) return (product.value.price ?? 0) + (selectedCombination.value.price_impact ?? 0);
+  if (selectedCombination.value) {
+    return selectedCombination.value.price ?? ((product.value.price ?? 0) + (selectedCombination.value.price_impact ?? 0));
+  }
   
   if (hasCombinations.value) {
-    const prices = combinations.value.map(c => parseFloat(product.value.price || 0) + parseFloat(c.price_impact || 0));
+    const prices = combinations.value.map(c => parseFloat(c.price ?? ((product.value.price || 0) + (c.price_impact || 0))));
     const min = Math.min(...prices);
     if (!isNaN(min)) return min;
   }
@@ -167,7 +169,7 @@ const displayPrice = computed(() => {
 
 const priceRange = computed(() => {
   if (!hasCombinations.value) return null;
-  const prices = combinations.value.map(c => parseFloat(product.value.price || 0) + parseFloat(c.price_impact || 0));
+  const prices = combinations.value.map(c => parseFloat(c.price ?? ((product.value.price || 0) + (c.price_impact || 0))));
   const min = Math.min(...prices);
   const max = Math.max(...prices);
   if (min === max || isNaN(min) || isNaN(max)) return null;

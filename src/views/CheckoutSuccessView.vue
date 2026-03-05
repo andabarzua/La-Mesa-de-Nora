@@ -1,11 +1,22 @@
 <script setup>
 /**
  * Página de retorno tras pago aprobado con Mercado Pago.
+ * Aquí limpiamos el carrito (el pago fue aprobado).
  */
+import { onMounted } from 'vue';
 import { useRoute, RouterLink } from 'vue-router';
+import { useCartStore } from '@/stores/cart';
 
 const route = useRoute();
 const externalReference = route.query.external_reference ?? '';
+const cartStore = useCartStore();
+
+onMounted(() => {
+  // Limpiar el carrito local al confirmar el pago exitoso
+  cartStore.clear();
+  cartStore.setReservationDates('', '');
+  try { localStorage.removeItem('checkout_contacto'); } catch { /* ok */ }
+});
 </script>
 
 <template>

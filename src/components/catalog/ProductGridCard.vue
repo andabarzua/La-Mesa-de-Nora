@@ -64,10 +64,14 @@ defineProps({
         {{ title }}
       </h3>
       <p v-if="priceRange" class="mt-2 border-t border-gray-100 pt-3 text-base font-semibold text-[#141642]">
-        ${{ priceRange.min.toLocaleString('es-CL') }} - ${{ priceRange.max.toLocaleString('es-CL') }}
+        ${{ priceRange.min.toLocaleString('es-CL') }}
+        <span v-if="priceRange.min !== priceRange.max"> - ${{ priceRange.max.toLocaleString('es-CL') }}</span>
       </p>
-      <p v-else class="mt-2 border-t border-gray-100 pt-3 text-base font-semibold text-[#141642]">
+      <p v-else-if="price > 0" class="mt-2 border-t border-gray-100 pt-3 text-base font-semibold text-[#141642]">
         ${{ price.toLocaleString('es-CL') }}
+      </p>
+      <p v-else class="mt-2 border-t border-gray-100 pt-3 text-sm font-medium text-[#141642]/60 italic">
+        Ver precio
       </p>
     </div>
   </RouterLink>
