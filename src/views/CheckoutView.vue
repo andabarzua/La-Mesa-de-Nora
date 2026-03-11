@@ -168,6 +168,7 @@ async function confirmarPedido() {
             }
           : null,
       metodo_pago: metodoPago.value,
+      base_url: window.location.origin,
     });
     
     if (res?.success) {
